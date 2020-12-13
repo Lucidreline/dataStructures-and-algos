@@ -14,7 +14,7 @@ def factorial(num):
     return num * factorial(num - 1)
 
 
-#print(factorial(3))
+# print(factorial(3))
 
 
 def productOfArray(arr):
@@ -28,11 +28,10 @@ def productOfArray(arr):
 def recursiveRange(num):
     if num is 0:
         return 0
-    
+
     if num > 0:
         return num + recursiveRange(num - 1)
     else:
         return num + recursiveRange(num + 1)
 
-#print(recursiveRange(6))
-
+# print(recursiveRange(6))
