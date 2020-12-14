@@ -4,54 +4,11 @@ from Node import Node
 class SinglyLinkedList:
     def __init__(self):
         self.head = None
+        self.tail = None
         self.size = 0
 
-    def addLast(self, value):
-        newNode = Node(value)
-
-        if self.head is None:
-            self.head = newNode
-            self.size += 1
-            return True
-
-        target = self.head
-        while not target.next is None:
-            target = target.next
-
-        target.next = newNode
-        self.size += 1
-        return True
-
-    def addToIndex(self, value, index):
-        if index < 0:
-            return False
-
-        if index == 0:
-            self.addFirst(value)
-            self.size += 1
-            return True
-
-        prevNode = self.head
-
-        try:
-            for i in range(index - 1):
-                prevNode = prevNode.next
-
-            if prevNode.next is None:
-                prevNode.next = Node(value)
-                self.size += 1
-                return True
-
-            prevNode.next = Node(value, prevNode.next)
-            self.size += 1
-            return True
-
-        except AttributeError:
-            print("You are trying to place " + str(value) + " at index " +
-                  str(index) + " when size of linked list is " + str(self.size) + ".")
-            return False
-
-    def addFirst(self, value):
+    # Adding to linked list
+    def unshift(self, value):
         newNode = Node(value)
 
         if self.head is None:  # if there is no head
@@ -65,6 +22,144 @@ class SinglyLinkedList:
         self.size += 1
         return True
 
+    def push(self, value):
+        newNode = Node(value)
+
+        if self.head is None:
+            self.head = newNode
+            self.tail = newNode
+            self.size += 1
+            return True
+
+        target = self.head
+        while not target.next is None:
+            target = target.next
+
+        target.next = newNode
+        self.tail = newNode
+        self.size += 1
+        return True
+
+    def set(self, value, index):
+        try:
+            nodeToUpdate = self.fetch(index)
+            nodeToUpdate.value = value
+        except AttributeError:
+            print()
+
+    def insert(self, value, index):
+        if index < 0:
+            return False
+
+        if index == 0:
+            self.addFirst(value)
+            return True
+
+        prevNode = self.head
+
+        try:
+            for i in range(index - 1):
+                prevNode = prevNode.next
+
+            if prevNode.next is None:
+                prevNode.next = Node(value)
+                self.tail = prevNode.next
+                self.size += 1
+                return True
+
+            prevNode.next = Node(value, prevNode.next)
+            self.size += 1
+            return True
+
+        except AttributeError:
+            print("You are trying to place " + str(value) + " at index " +
+                  str(index) + " when size of linked list is " + str(self.size) + ".")
+            return False
+
+    # Removing from linked list
+    def pop(self):  # removes the tail of list
+        if self.head is None:
+            return None
+
+        if self.head.next is None:
+            tailValue = self.head.value
+            self.head = None
+            self.tail = None
+            self.size = 0
+
+            return tailValue
+
+        prevNode = self.head
+        while prevNode.next.next:
+            prevNode = prevNode.next
+
+        tailValue = self.tail.value
+        self.tail = prevNode
+        prevNode.next = None
+        self.size -= 1
+
+        return tailValue
+
+    def shift(self):  # removes head of list
+        if self.head is None:
+            return None
+
+        headValue = self.head.value
+
+        if self.head.next is None:
+            self.head = None
+            self.tail = None
+            self.size = 0
+
+            return headValue
+
+        self.head = self.head.next
+        self.size -= 1
+        return headValue
+
+    def remove(self, index):
+        if index is 0:
+            return self.shift()
+
+        if index is self.size - 1:
+            return self.pop()
+
+        prevNode = self.fetch(index - 1)
+        removedValue = prevNode.next.value
+        if prevNode.next.next:
+            prevNode.next = prevNode.next.next
+
+        else:
+            prevNode.next = None
+            self.tail = prevNode
+
+        return removedValue
+
+    # Getting
+
+    def get(self, index):
+        return self.fetch(index).value
+
+    def fetch(self, index):
+        if self.head is None:
+            print("Can't get(" + str(index) + "). List is empty")
+            return None
+
+        if index < 0:
+            print("Can't get negative index")
+            return None
+
+        try:
+            target = self.head
+            for i in range(index):
+                target = target.next
+
+            return target
+
+        except AttributeError:
+            print("You are trying to get index " + str(index) +
+                  " when size of linked list is " + str(self.size) + ".")
+
     def toList(self):
         if self.head is None:
             return []
@@ -72,15 +167,7 @@ class SinglyLinkedList:
         newList = []
         target = self.head
         while target:
-            newList.append(target.data)
+            newList.append(target.value)
             target = target.next
 
         return newList
-
-
-listy = SinglyLinkedList()
-
-
-listy.addToIndex(10, 1)
-
-print(listy.toList())
