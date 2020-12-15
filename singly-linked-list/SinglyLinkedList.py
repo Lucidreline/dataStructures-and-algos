@@ -8,7 +8,7 @@ class SinglyLinkedList:
         self.size = 0
 
     # Adding to linked list
-    def unshift(self, value):
+    def unshift(self, value):  # adds node to head of list
         newNode = Node(value)
 
         if self.head is None:  # if there is no head
@@ -22,7 +22,7 @@ class SinglyLinkedList:
         self.size += 1
         return True
 
-    def push(self, value):
+    def push(self, value):  # adds node to tail of list
         newNode = Node(value)
 
         if self.head is None:
@@ -40,14 +40,14 @@ class SinglyLinkedList:
         self.size += 1
         return True
 
-    def set(self, value, index):
+    def set(self, value, index):  # changed value of an element
         try:
             nodeToUpdate = self.fetch(index)
             nodeToUpdate.value = value
         except AttributeError:
             print()
 
-    def insert(self, value, index):
+    def insert(self, value, index):  # adds node to a index of list
         if index < 0:
             return False
 
@@ -117,7 +117,7 @@ class SinglyLinkedList:
         self.size -= 1
         return headValue
 
-    def remove(self, index):
+    def remove(self, index):  # removes a node at index x of the list
         if index is 0:
             return self.shift()
 
@@ -137,10 +137,10 @@ class SinglyLinkedList:
 
     # Getting
 
-    def get(self, index):
+    def get(self, index):  # returns value of index x
         return self.fetch(index).value
 
-    def fetch(self, index):
+    def fetch(self, index):  # returns node of index x
         if self.head is None:
             print("Can't get(" + str(index) + "). List is empty")
             return None
@@ -160,7 +160,7 @@ class SinglyLinkedList:
             print("You are trying to get index " + str(index) +
                   " when size of linked list is " + str(self.size) + ".")
 
-    def toList(self):
+    def toList(self):  # returns an list of linkedlist
         if self.head is None:
             return []
 
