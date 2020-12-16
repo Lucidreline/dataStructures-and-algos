@@ -40,13 +40,6 @@ class SinglyLinkedList:
         self.size += 1
         return True
 
-    def set(self, value, index):  # changed value of an element
-        try:
-            nodeToUpdate = self.fetch(index)
-            nodeToUpdate.value = value
-        except AttributeError:
-            print()
-
     def insert(self, value, index):  # adds node to a index of list
         if index < 0:
             return False
@@ -134,6 +127,34 @@ class SinglyLinkedList:
             self.tail = prevNode
 
         return removedValue
+
+    # Changing
+
+    def set(self, value, index):  # changed value of an element
+        try:
+            nodeToUpdate = self.fetch(index)
+            nodeToUpdate.value = value
+        except AttributeError:
+            print()
+
+    def reverse(self):  # reverses the nodes in the list in place (only things that change are the pointers)
+        # if list is empty or only has one node
+        if self.head is None:
+            return
+
+        # list has two or more
+        target = self.head
+        self.head = self.tail
+        self.tail = target
+
+        nextNode = target.next
+        prevNode = None
+
+        while target:
+            nextNode = target.next
+            target.next = prevNode
+            prevNode = target
+            target = nextNode
 
     # Getting
 
