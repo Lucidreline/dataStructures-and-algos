@@ -1,4 +1,7 @@
-from Node import Node
+class Node:
+    def __init__(self, value, next=None):
+        self.value = value
+        self.next = next
 
 
 class SinglyLinkedList:
@@ -192,3 +195,15 @@ class SinglyLinkedList:
             target = target.next
 
         return newList
+
+    def print(self):
+        listString = "["
+
+        target = self.head
+        while target:
+            listString += str(target.value) + ", "
+            target = target.next
+
+        # removes the last ', ' from the string and closed bracket
+        listString = listString[:-2] + "]"
+        print(listString)
